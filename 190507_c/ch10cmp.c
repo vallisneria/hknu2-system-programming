@@ -34,12 +34,21 @@ int main(int argc, char *argv[]) {
             printf("%s line %d: %s\n", argv[2], line, file2Contents);
         }
 
+        // 어느 파일 하나가 파일의 끝에 도달하면
+        // 아래와 같이 출력하고 프로그램을 종료함.
         if (file1Contents == NULL) {
             printf("%s line %d: %s\n", argv[1], line, "NULL");
             printf("%s line %d: %s\n", argv[2], line, file2Contents);
+
+            break;
+
         } else if (file2Contents == NULL) {
             printf("%s line %d: %s\n", argv[1], line, file1Contents);
             printf("%s line %d: %s\n", argv[2], line, "NULL");
+
+            break;
         }
     }
+
+    return 0;
 }
