@@ -1,0 +1,2 @@
+#!/bin/sh
+mv $* ~/.local/share/Trash/files/
