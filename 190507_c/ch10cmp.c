@@ -11,16 +11,16 @@
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-    FILE *file1, *file2;
-    int line = 1;
-    char *file1Contents, *file2Contents;
-
     if (argc != 3) {
         // 입력된 인수의 개수가 2개가 아닐 경우 오류 메시지 출력
         printf("사용 방법: ch10cmp [file1] [file2]");
 
         return -1;
     }
+
+    FILE *file1, *file2;
+    int line = 1;
+    char *file1Contents, *file2Contents;
 
     file1 = fopen(argv[1], "r");
     file2 = fopen(argv[2], "r");
@@ -49,6 +49,9 @@ int main(int argc, char *argv[]) {
             break;
         }
     }
+
+    fclose(file1);
+    fclose(file2);
 
     return 0;
 }

@@ -8,16 +8,16 @@
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
-    FILE *fin, *fout;
-    int line = 1;
-    char* lineContents;
-
     if (argc != 3) {
         //입력된 인수가 2개가 아닐 경우 다음과 같은 오류 메시지 출력
         printf("사용 방법: ch10cp [file1] [file2]\n");
 
         return -1;
     }
+
+    FILE *fin, *fout;
+    int line = 1;
+    char* lineContents;
 
     fin = fopen(argv[1], "r");
     fout = fopen(argv[2], "w");
@@ -39,6 +39,9 @@ int main(int argc, char* argv[]) {
             fputs(lineContents, fout);
         }
     }
+
+    fclose(fin);
+    fclose(fout);
 
     return 0;
 }
