@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
@@ -17,7 +18,7 @@ int main(int argc, char* argv[]) {
 
     FILE *fin, *fout;
     int line = 1;
-    char* lineContents;
+    char lineContents[100];
 
     fin = fopen(argv[1], "r");
     fout = fopen(argv[2], "w");
@@ -29,7 +30,7 @@ int main(int argc, char* argv[]) {
 
             line++;
 
-            if (lineContents == NULL) {
+            if (strcmp(lineContents, NULL)) {
                 // 만약 lineContents에 NULL이 저장되어 있으면
                 // 마지막 줄이므로 while문을 빠져나간다
                 break;
