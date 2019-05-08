@@ -36,21 +36,15 @@ int main(int argc, char* argv[]){
         // 명령줄 인수가 1개 이상이면
         // 첫번째로 입력한 명령줄 인수를 open
         fin=open(argv[1],O_RDONLY);
-        read(fin,buf,100*sizeof(buf));
     }
     else{
         // 명령줄 인수가 없으면
         // 표준입력
         printf("입력을 종료하려면 [ctrl]+[d]를 입력하세요.\n");
-        read(0,buf,100*sizeof(buf));
+        fin=fileno(stdin);
     }
 
-    while(1){
-        if(*buf==EOF){
-            // while문 탈출 조건
-            break;
-        }
-
+    while(read(fin,buf,sizeof(buf))>0){
         if(*buf==' '){
             // 띄어쓰기가 나오면 한 단어가 끝난 것이므로 wc를 하나 추가함.
             wc++;
