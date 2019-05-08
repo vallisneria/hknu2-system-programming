@@ -14,15 +14,15 @@ int main(int argc, char* argv[]) {
     }
 
     FILE *fin, *fout;
-    char buffer=0;
+    char* buffer;
     
     fin=fopen(argv[1],"r");
     fout=fopen(argv[2],"w");
 
     fseek(fin,0,SEEK_END);
     do{
-        fseek(fin,-2*sizeof(buffer),SEEK_CUR);
-        fread(buffer,sizeof(buffer),1,fin);
+        fseek(fin,-1*sizeof(char),SEEK_CUR);
+        fread(buffer,sizeof(char),1,fin);
         fprintf(fout,"%c",buffer);
     }while(ftell(fin)!=SEEK_SET);
 
