@@ -9,23 +9,26 @@
 
 int main(int argc, char* argv[]) {
     if(argc!=3){
-        fprintf(stderr,"사용 방법: ch10reverse [입력파일] [출력파일]");
+        fprintf(stderr,"사용 방법: ch10reverse [입력파일] [출력파일]\n");
         return 1;
     }
 
     FILE *fin, *fout;
-    char* buffer;
+    char buffer;
     
     fin=fopen(argv[1],"r");
     fout=fopen(argv[2],"w");
 
-    fseek(fin,0,SEEK_END);
-    do{
-        fseek(fin,-1*sizeof(char),SEEK_CUR);
-        fread(buffer,sizeof(char),1,fin);
+    fseek(fin,-1*sizeof(char),SEEK_END);
+    while(ftell(fin)!=SEEK_SET){
+        fread(buffer,sizeof(buffer),1,fin);
         fprintf(fout,"%c",buffer);
-    }while(ftell(fin)!=SEEK_SET);
+        fseek(fin,-2*sizeof(buffer),SEEK_CUR);
+    }
+    fread(&buffer,sizeof(buffer),1,fin);
+    fprintf(fout,"%c",buffer);
 
     fclose(fin);
     fclose(fout);
+    return 0;
 }
