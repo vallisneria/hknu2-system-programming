@@ -34,7 +34,6 @@ int main(int argc, char* argv[]){
     char buf;
     fin=open(argv[1],O_RDONLY);
     
-
     while(read(fin,&buf,sizeof(buf))){
         if(buf==' '){
             // 띄어쓰기가 나오면 한 단어가 끝난 것이므로 wc를 하나 추가함.
@@ -51,6 +50,10 @@ int main(int argc, char* argv[]){
             cc++;
         }
     }
+
+    lc++;
+    wc++;
+    printf("char %d\tword %d\tline %d\n",cc,wc,lc);
 
     return 0;
 }
