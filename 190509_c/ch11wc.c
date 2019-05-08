@@ -31,15 +31,19 @@ int main(int argc, char* argv[]){
     int cc=0;   // char count
     int wc=0;   // word count
     int lc=0;   // line count
-    char* buf;
+    char* buf;  // buffer
     if(argc>=2){
+        // 명령줄 인수가 1개 이상이면
+        // 첫번째로 입력한 명령줄 인수를 open
         fin=open(argv[1],O_RDONLY);
     }
     else{
+        // 명령줄 인수가 없으면
+        // 표준입력
         printf("입력을 종료하려면 [ctrl]+[d]를 입력하세요.\n");
-        fin=read(stdin,buf,sizeof(buf));
+        fin=open(stdin,O_WRONLY);
     }
-    
+
     while(read(fin,buf,sizeof(buf))){
         if(*buf==' '){
             // 띄어쓰기가 나오면 한 단어가 끝난 것이므로 wc를 하나 추가함.
