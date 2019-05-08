@@ -32,7 +32,13 @@ int main(int argc, char* argv[]){
     int wc=0;   // word count
     int lc=0;   // line count
     char buf;
-    fin=open(argv[1],O_RDONLY);
+    if(argc>=2){
+        fin=open(argv[1],O_RDONLY);
+    }
+    else{
+        printf("입력을 종료하려면 [ctrl]+[d]를 입력하세요.\n");
+        fin=open(stdin,O_RDONLY);
+    }
     
     while(read(fin,&buf,sizeof(buf))){
         if(buf==' '){
