@@ -31,27 +31,27 @@ int main(int argc, char* argv[]){
     int cc=0;   // char count
     int wc=0;   // word count
     int lc=0;   // line count
-    char buf;
+    char* buf;
     if(argc>=2){
         fin=open(argv[1],O_RDONLY);
     }
     else{
         printf("입력을 종료하려면 [ctrl]+[d]를 입력하세요.\n");
-        fin=open(stdin,O_RDONLY);
+        fin=read(stdin,buf,sizeof(buf));
     }
     
-    while(read(fin,&buf,sizeof(buf))){
-        if(buf==' '){
+    while(read(fin,buf,sizeof(buf))){
+        if(*buf==' '){
             // 띄어쓰기가 나오면 한 단어가 끝난 것이므로 wc를 하나 추가함.
             wc++;
         }
-        else if(buf == '\n'){
+        else if(*buf == '\n'){
             // '/n'가 나오면 한 줄을 끝내고
             // 다음줄로 넘어가기 때문에 lc를 하나 추가함.
             lc++;
         }
         
-        if(isWord(buf)){
+        if(isWord(*buf)){
             // 특수한 문자가 아닐 경우에는
             // cc도 하나 추가함.
             cc++;
