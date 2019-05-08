@@ -44,9 +44,10 @@ int main(int argc, char* argv[]){
             // 다음줄로 넘어가기 때문에 lc를 하나 추가함.
             lc++;
         }
-        else if(!isWord(buf)){
-            // 나머지 경우(특수한 문자가 아닐 경우)에는
-            // cc를 하나 추가함.
+        
+        if(!isWord(buf)){
+            // 특수한 문자가 아닐 경우에는
+            // cc도 하나 추가함.
             cc++;
         }
     }
