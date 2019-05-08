@@ -26,12 +26,18 @@ int isWord(char x){
     }
 }
 
+long FileSize(int fd){
+    FILE *fp=fdopen(fd);
+    fseek(fp,0,SEEK_END);
+    return ftell(fp);
+}
+
 int main(int argc, char* argv[]){
     int fin;    // file input
     int cc=0;   // char count
     int wc=0;   // word count
     int lc=0;   // line count
-    double fileSize;
+    long fileSize;
     char buf;  // buffer
     if(argc>=2){
         // 명령줄 인수가 1개 이상이면
@@ -45,9 +51,10 @@ int main(int argc, char* argv[]){
         // 표준입력
         printf("입력을 종료하려면 [ctrl]+[d]를 입력하세요.\n");
         fin=fileno(stdin);
-        fileSize=lseek(fin,0,SEEK_END);
-        lseek(fin,0,SEEK_SET);
+        read(fin,&buf,sizeof(buf));
     }
+
+    fileSize=FileSize(fin);
 
     while(lseek(fin,0,SEEK_CUR)<fileSize){        
         read(fin,&buf,sizeof(buf));
