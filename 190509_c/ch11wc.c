@@ -31,7 +31,6 @@ int main(int argc, char* argv[]){
     int cc=0;   // char count
     int wc=0;   // word count
     int lc=0;   // line count
-    int loop;
     char buf;  // buffer
     if(argc>=2){
         // 명령줄 인수가 1개 이상이면
@@ -45,25 +44,21 @@ int main(int argc, char* argv[]){
         fin=fileno(stdin);
     }
 
-    while((loop=read(fin,&buf,sizeof(buf)))>0){
-        printf("read(fin,buf,sizeof(buf))>0 is %d",loop);
-        
+    while(lseek(fin,0,SEEK_CUR)<SEEK_END){        
+        read(fin,&buf,sizeof(buf));
         if(buf==' '){
             // 띄어쓰기가 나오면 한 단어가 끝난 것이므로 wc를 하나 추가함.
-            printf("wc++\n");
             wc++;
         }
         else if(buf == '\n'){
             // '/n'가 나오면 한 줄을 끝내고
             // 다음줄로 넘어가기 때문에 lc를 하나 추가함.
-            printf("lc++\n");
             lc++;
         }
         
         if(isWord(buf)){
             // 특수한 문자가 아닐 경우에는
             // cc도 하나 추가함.
-            printf("cc++\n");
             cc++;
         }
     }
