@@ -41,7 +41,7 @@ int main(int argc, char* argv[]){
         // 명령줄 인수가 없으면
         // 표준입력
         printf("입력을 종료하려면 [ctrl]+[d]를 입력하세요.\n");
-        fin=open(stdin,O_WRONLY);
+        fin=stdin;
     }
 
     while(read(fin,buf,sizeof(buf))){
