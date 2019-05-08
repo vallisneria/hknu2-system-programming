@@ -45,7 +45,7 @@ int main(int argc, char* argv[]){
             lc++;
         }
         
-        if(!isWord(buf)){
+        if(isWord(buf)){
             // 특수한 문자가 아닐 경우에는
             // cc도 하나 추가함.
             cc++;
