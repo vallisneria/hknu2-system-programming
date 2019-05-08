@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
     int wc=0;   // word count
     int lc=0;   // line count
     char buf;  // buffer
-    
+
     if(argc>=2){
         // 명령줄 인수가 1개 이상이면
         // 첫번째로 입력한 명령줄 인수를 open
@@ -43,6 +43,7 @@ int main(int argc, char* argv[]){
         // 표준입력
         printf("입력을 종료하려면 [ctrl]+[d]를 입력하세요.\n");
         fin=fileno(stdin);
+        lc++;
     }
     
     while(read(fin,&buf,sizeof(buf))>0){
@@ -63,7 +64,6 @@ int main(int argc, char* argv[]){
         }
     }
 
-    lc++;
     wc++;
     printf("char %d\tword %d\tline %d\n",cc,wc,lc);
 
