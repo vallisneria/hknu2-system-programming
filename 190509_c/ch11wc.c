@@ -52,7 +52,6 @@ int main(int argc, char* argv[]){
         }
     }
 
-    lc++;
     wc++;
     printf("char %d\tword %d\tline %d\n",cc,wc,lc);
 
