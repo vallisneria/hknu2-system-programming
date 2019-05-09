@@ -17,6 +17,18 @@
 // 입력된 char가 단어인지 체크하는 함수
 int isWord(char x){
     switch (x) {
+        case ' ':
+        case '\n':
+        case '\t':
+        case '\b':
+        case '\r':
+        case '\f': return 0;    // false
+        default: return 1;      // true
+    }
+}
+
+isWordAndSpace(char x){
+    switch (x) {
         case '\n':
         case '\t':
         case '\b':
@@ -31,7 +43,7 @@ int main(int argc, char* argv[]){
     int cc=0;   // char count
     int wc=0;   // word count
     int lc=0;   // line count
-    char buf;  // buffer
+    char buf, preBuf;  // buffer
 
     if(argc>=2){
         // 명령줄 인수가 1개 이상이면
@@ -41,27 +53,31 @@ int main(int argc, char* argv[]){
     else{
         // 명령줄 인수가 없으면
         // 표준입력
-        printf("입력을 종료하려면 [ctrl]+[d]를 입력하세요.\n");
+        printf("입력을 종료하려면 [ctrl]+[d](리눅스)를 입력하세요.\n");
         fin=fileno(stdin);
         lc++;
     }
     
     while(read(fin,&buf,sizeof(buf))>0){
-        if(buf==' '){
-            // 띄어쓰기가 나오면 한 단어가 끝난 것이므로 wc를 하나 추가함.
+        if(isWord(preBuf) && buf==' '){
+            // 이전 char가 특수한 문자가 아니고 이번 char가 공백이면
+            // 한 단어라고 볼 수 있으므로 wc를 하나 추가함.
             wc++;
         }
-        else if(buf == '\n'){
-            // '/n'가 나오면 한 줄을 끝내고
-            // 다음줄로 넘어가기 때문에 lc를 하나 추가함.
+        else if(isWord(preBuf) && buf == '\n'){
+            // 이전 char가 특수한 문자가 아니고 이번 char가 '/n'이면
+            // 이 단어가 끝나고 다음줄로 넘어가기 때문에
+            // wc와 lc를 하나 추가함.
+            wc++;
             lc++;
         }
-        
-        if(isWord(buf)){
-            // 특수한 문자가 아닐 경우에는
+
+        if(isWordAndSpace(buf)){
+            // 이번 char가 (공백을 제외한) 특수한 문자가 아닐 경우에는
             // cc도 하나 추가함.
             cc++;
         }
+        preBuf=buf;
     }
 
     wc++;
