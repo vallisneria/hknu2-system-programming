@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-// 입력된 char가 단어인지 체크하는 함수
+// 입력된 char가 특수문자(공백 포함)가 아닌지 체크하는 함수
 int isWord(char x){
     switch (x) {
         case ' ':
@@ -27,7 +27,8 @@ int isWord(char x){
     }
 }
 
-isWordAndSpace(char x){
+// 입력된 char가 특수문자(공백 제외)가 아닌지 체크하는 함수
+int isWordAndSpace(char x){
     switch (x) {
         case '\n':
         case '\t':
@@ -40,9 +41,9 @@ isWordAndSpace(char x){
 
 int main(int argc, char* argv[]){
     int fin;    // file input
-    int cc=0;   // char count
-    int wc=0;   // word count
-    int lc=0;   // line count
+    unsigned int cc=0;   // char count
+    unsigned int wc=0;   // word count
+    unsigned int lc=0;   // line count
     char buf, preBuf;  // buffer
 
     if(argc>=2){
@@ -55,20 +56,18 @@ int main(int argc, char* argv[]){
         // 표준입력
         printf("입력을 종료하려면 [ctrl]+[d](리눅스)를 입력하세요.\n");
         fin=fileno(stdin);
-        lc++;
     }
     
     while(read(fin,&buf,sizeof(buf))>0){
-        if(isWord(preBuf) && buf==' '){
-            // 이전 char가 특수한 문자가 아니고 이번 char가 공백이면
-            // 한 단어라고 볼 수 있으므로 wc를 하나 추가함.
+        if(isWordAndSpace(preBuf) && !isWordAndSpace(buf)){
+            // 이전 char가 (space를 포함한) 특수한 문자가 아니고
+            // 이번 char가 (space를 포함한) 특수한 문자이면
+            // 단어이므로 wc를 추가함
             wc++;
         }
-        else if(isWord(preBuf) && buf == '\n'){
-            // 이전 char가 특수한 문자가 아니고 이번 char가 '/n'이면
-            // 이 단어가 끝나고 다음줄로 넘어가기 때문에
-            // wc와 lc를 하나 추가함.
-            wc++;
+        else if(buf == '\n'){
+            // 이번 char가 '\n'이면
+            // 다음 줄로 넘어가므로 lc를 추가함.
             lc++;
         }
 
@@ -80,7 +79,8 @@ int main(int argc, char* argv[]){
         preBuf=buf;
     }
 
-    wc++;
+    
+    
     printf("char %d\tword %d\tline %d\n",cc,wc,lc);
 
     close(fin);
