@@ -19,30 +19,26 @@ int main(int argc, char* argv[]) {
     }
 
     const int fin = open(argv[1], O_WRONLY);
+    int i, j, k;
     const char tree = '$';
     const char enter = '\n';
     const char space = ' ';
 
-    for (int i = 0; i < MAXLINE; i++) {
-        for (int j = 0; j < MAXLINE; j++) {
-            if (j == MAXLINE - i * 2 + 1) {
-                for (int k = 0; k < MAXLINE - i * 2 + 1; k++) {
-                    write(fin, &tree, sizeof(tree));
-                }
-                break;
+    for (i = 0; i < MAXLINE; i++) {
+        for (j = 0; j < MAXLINE; j++) {
+            if (j >= (int)(MAXLINE / 2) - i && j <= (int)(MAXLINE / 2) + i) {
+                write(fin, &tree, sizeof(tree));
+            } else {
+                write(fin, &space, sizeof(space));
             }
-            write(fin, &space, sizeof(space));
         }
-        write(fin, &enter, sizeof(enter));
     }
 
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < (int)MAXLINE / 2 + 1; j++) {
-            if (j == (int)MAXLINE / 2 + 1) {
-                write(fin, &tree, sizeof(tree));
-            }
-            write(fin, &space, sizeof(tree));
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < (int)(MAXLINE / 2); j++) {
+            write(fin, &space, sizeof(space));
         }
+        write(fin, &tree, sizeof(tree));
     }
 
     close(fin);

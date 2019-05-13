@@ -31,8 +31,10 @@ int main(int argc, char* argv[]) {
     lseek(fin, 0, SEEK_SET);
 
     do {
-        read(fin,(char*)&rdNum,sizeof(rdNum));
-        lseek(fin,sizeof(rdNum),SEEK_CUR);
+        read(fin, (char*)&rdNum, sizeof(rdNum));
+        lseek(fin, sizeof(rdNum), SEEK_CUR);
+        printf("%lf", rdNum);
+        i++;
     } while (i < REAL_NUM);
 
     close(fin);
