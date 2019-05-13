@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     const char enter = '\n';
     const char space = ' ';
 
-    for (i = 0; i < MAXLINE; i++) {
+    for (i = 0; i < (MAXLINE - 1) / 2; i++) {
         for (j = 0; j < MAXLINE; j++) {
             if (j >= (int)(MAXLINE / 2) - i && j <= (int)(MAXLINE / 2) + i) {
                 write(fin, &tree, sizeof(tree));
@@ -32,13 +32,19 @@ int main(int argc, char* argv[]) {
                 write(fin, &space, sizeof(space));
             }
         }
+        write(fin, &enter, sizeof(enter));
     }
 
     for (i = 0; i < 2; i++) {
-        for (j = 0; j < (int)(MAXLINE / 2); j++) {
-            write(fin, &space, sizeof(space));
+        for (j = 0; j <= (MAXLINE - 1) / 2; j++) {
+            if (j != (MAXLINE - 1) / 2) {
+                write(fin, &space, sizeof(space));
+            } else {
+                write(fin, &tree, sizeof(tree));
+                break;
+            }
         }
-        write(fin, &tree, sizeof(tree));
+        write(fin, &enter, sizeof(enter));
     }
 
     close(fin);

@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "errprint.h"
 
 #define REAL_NUM 20
@@ -22,9 +23,11 @@ int main(int argc, char* argv[]) {
     double rdNum;
     int i;
 
+    srand(time(NULL));
+
     for (i = 0; i < REAL_NUM; i++) {
         rdNum = (double)rand() / ((double)rand() + 1);  // 분모가 0이 될 수 없으므로 1을 더해준다.
-        write(fin, &rdNum, sizeof(rdNum));
+        write(fin, (char*)&rdNum, sizeof(rdNum));
     }
 
     i = 0;
@@ -32,8 +35,7 @@ int main(int argc, char* argv[]) {
 
     do {
         read(fin, (char*)&rdNum, sizeof(rdNum));
-        lseek(fin, sizeof(rdNum), SEEK_CUR);
-        printf("%lf", rdNum);
+        printf("%lf\n", rdNum);
         i++;
     } while (i < REAL_NUM);
 
