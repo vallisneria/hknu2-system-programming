@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     fout=fopen(argv[2],"w");
 
     fseek(fin,-1*sizeof(char),SEEK_END);
-    while(ftell(fin)!=SEEK_SET){
+    while(ftell(fin)!=0){
         fread(&buffer,sizeof(buffer),1,fin);
         fprintf(fout,"%c",buffer);
         fseek(fin,-2*sizeof(buffer),SEEK_CUR);

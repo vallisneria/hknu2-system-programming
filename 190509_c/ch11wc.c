@@ -79,8 +79,11 @@ int main(int argc, char* argv[]){
         preBuf=buf;
     }
 
-    
-    
+    //마지막 문자
+    if(buf=='\n'){
+        lc++;
+    }
+
     printf("char %d\tword %d\tline %d\n",cc,wc,lc);
 
     close(fin);
