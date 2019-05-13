@@ -20,11 +20,12 @@ int main(int argc, char* argv[]) {
     }
 
     const int fin = open(argv[1], O_WRONLY);
+    int i, j;
     const char tri = '$';
     const char ent = '\n';
 
-    for (int i = 0; i < MAXLINE; i++) {
-        for (int j = 0; j < i; j++) {
+    for (i = 0; i < MAXLINE; i++) {
+        for (j = 0; j <= i; j++) {
             write(fin, &tri, sizeof(tri));
         }
         write(fin, &ent, sizeof(ent));
