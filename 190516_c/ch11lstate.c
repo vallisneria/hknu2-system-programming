@@ -9,12 +9,14 @@
 */
 
 #include <fcntl.h>
+#include <grp.h>
+#include <pwd.h>  // 이 둘은 windows에서는 include할 수 없음
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int main(int argc, char* argv[]) {
-    if (argc >= 1) {
+int main(int argc, char *argv[]) {
+    if (argc <= 1) {
         fprintf(stderr, "사용 방법: ch11lstate [file]+");
         return -1;
     }
@@ -22,16 +24,15 @@ int main(int argc, char* argv[]) {
     int i;
     int fin;
     struct stat info;
-    struct passwd user;
-    struct group gr;
+    struct passwd *user;
+    struct group *gr;
 
     for (i = 0; i < argc - 1; i++) {
-        printf("파일 이름: %s\n", *argv[i + 1]);
-        fin = open(argv[i - 1], O_RDONLY);
-        fstat(fin, &info);
-        &user = getpwuid(info.st_uid);
-        &gr = getgrgid(info.st_gid);
-        printf("user: %s\ngroup: %s", user.*pw_name, user.*gr_name);
+        printf("파일 이름: %s\n", argv[i + 1]);
+        stat(argv[i + 1], &info);
+        user = getpwuid(info.st_uid);
+        gr = getgrgid(info.st_gid);
+        printf("user: %s\ngroup: %s\n", user->pw_name, gr->gr_name);
     }
 
     return 0;
