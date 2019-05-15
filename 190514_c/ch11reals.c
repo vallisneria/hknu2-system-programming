@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 
     do {
         read(fin, (char*)&rdNum, sizeof(rdNum));
-        printf("%lf\n", rdNum);
+        printf("%f\n", rdNum);
         i++;
     } while (i < REAL_NUM);
 
