@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
         printf("isFilehead=%d, buf=%c\n", isFilehead, buf);
     } while (isFilehead != -1);
 
-    for (j = i - 1; j >= 0; j--) {
+    for (j = i - 1; j >= 0; j--) {      // 입력 파일에서 첫 번째 줄을 출력 파일 마지막 줄에 출력함
         write(fout, &(lbuf[j]), sizeof(char));
     }
 

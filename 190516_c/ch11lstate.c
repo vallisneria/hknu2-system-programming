@@ -27,9 +27,9 @@ int main(int argc, char *argv[]) {
     struct passwd *user;
     struct group *gr;
 
-    for (i = 0; i < argc - 1; i++) {
-        printf("파일 이름: %s\n", argv[i + 1]);
-        stat(argv[i + 1], &info);
+    for (i = 1; i < argc; i++) {
+        printf("파일 이름: %s\n", argv[i]);
+        lstat(argv[i], &info);
         user = getpwuid(info.st_uid);
         gr = getgrgid(info.st_gid);
         printf("user: %s\ngroup: %s\n", user->pw_name, gr->gr_name);
