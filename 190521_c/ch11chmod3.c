@@ -2,18 +2,19 @@
     2019년 5월 21일
     시스템프로그래밍 실습과제
 
-    명령줄 인수로 permission과 파일 이름을 입력받아, 그 파일의 permission을 변경하는 프로그램 ch11chmod3을 작성하라.
+    명령줄 인수로 permission과 파일 이름을 입력받아,
+    그 파일의 permission을 변경하는 프로그램 ch11chmod3을 작성하라.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include "numTypePermission.h"
+#include "charTypePerm.h"
 
 int main(int argc, char* argv[]) {
-    if (argc % 2 == 0 || argc <= 2) {
-        fprintf(stderr, "사용 방법: ch11chmod3 [permission] [file] ...\n");
+    if (argc <= 2 && argc % 2 == 0) {
+        fprintf(stderr, "사용 방법: ch11chmod3 [permission] [file] ...");
         return -1;
     }
 
@@ -23,12 +24,12 @@ int main(int argc, char* argv[]) {
 
     for (i = 1; i < argc; i += 2) {
         stat(argv[i + 1], &inputfile);
-        if (newperm = numTypePermission(inputfile.st_mode, *argv[i])) {
-            chmod(argv[i + 1], newperm);
-        } else if (newperm = strtol(argv[i], NULL, 8)) {
-            chmod(argv[i + 1], newperm);
-        }
-        printf("파일 %s(이)가 %o으로 변경되었습니다.\n", argv[i + 1], newperm);
+        newperm = (int)inputfile.st_mode & 0b111111111;
+
+        newperm = charTypePerm(newperm, argv[i]);
+        chmod(argv[i + 1], newperm);
+
+        printf("파일 %s의 권한을 %o로 변환했습니다.\n", argv[i + 1], newperm);
     }
 
     return 0;
