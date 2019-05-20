@@ -17,16 +17,23 @@ int main(int argc, char *argv[]) {
         return -1;
     }
     int i;
-    int chper;  // 변경할 permission
+    int newmode;  // 변경할 permission
     struct stat inputfile;
 
-    for (i = 0; i < argc - 1; i++) {
+    for (i = 1; i < argc; i++) {
         stat(argv[i], &inputfile);
+        printf("%d\n", inputfile.st_mode);
 
-        // 원래 파일의 permission과 001000000을 비트 or 연산해서 owner x를 추가함
-        chper = strtol((const char *)inputfile.st_mode, (char **)NULL, 8) | (001000000);
+        // 511(111111111)과 비트 and 연산해서 맨 뒤 9자리(permisson)만 뽑아냄
+        newmode = (int)inputfile.st_mode & 0b111111111;
+        printf("%d\n", newmode);
 
-        chmod(argv[i], chper);
+        // 원래 파일의 permission과 64(001000000)을 비트 or 연산해서 owner x를 추가함
+        newmode = newmode | 0b001000000;
+
+        printf("%d", newmode);
+
+        chmod(argv[i], newmode);
     }
 
     return 0;
