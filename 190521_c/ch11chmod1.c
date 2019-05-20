@@ -23,9 +23,8 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < argc - 1; i++) {
         stat(argv[i], &inputfile);
 
-        // 원래 파일의 permission과 001000000을 비트 or 연산해서 owner x를
-        // 추가함
-        chper = strtol((char *)argv[i], (char **)NULL, 8) | (001000000);
+        // 원래 파일의 permission과 001000000을 비트 or 연산해서 owner x를 추가함
+        chper = strtol((const char *)inputfile.st_mode, (char **)NULL, 8) | (001000000);
 
         chmod(argv[i], chper);
     }
