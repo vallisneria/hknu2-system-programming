@@ -34,7 +34,7 @@ void printStat(char* pathname, char* file, struct stat* st) {
         printf("%2d:%2d ", time->tm_hour, time->tm_min);        // 파일의 마지막 수정 시간을 출력
     }                                                           //
                                                                 //
-    printf("%20s", file);                                       // 파일의 이름을 출력
+    printf("%s", file);                                         // 파일의 이름을 출력
                                                                 //
     if (F_option) {                                             // -F 옵션이 있으면
         printf("%c", typeF(st->st_mode));                       // 파일 형식을 알리는 문자 추가

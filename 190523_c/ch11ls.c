@@ -23,7 +23,7 @@
 
 int main(int argc, char *const argv[]) {
     DIR *dp;
-    char *dir = 0;
+    char *dir = ".";
     struct stat st;
     struct dirent *d;
     char path[BUFSIZ + 1];
@@ -47,7 +47,9 @@ int main(int argc, char *const argv[]) {
         }
     }
 
-    dir = ".";
+    if (argv[argc - 1][0] != '-') {
+        dir = argv[argc - 1];
+    }
 
     if ((dp = opendir(dir)) == NULL) {
         perror(dir);
