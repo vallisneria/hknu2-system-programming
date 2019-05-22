@@ -1,37 +1,42 @@
 #include <dirent.h>
 #include <grp.h>
 #include <pwd.h>
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <time.h>
+#include <unistd.h>
 
 char type(mode_t);
 char typeF(mode_t);
 char* perm(mode_t);
 void printStat(char*, char*, struct stat*);
-int option[3] = {0, 0, 0};  // [s][n][F]
+bool s_option = 0;
+bool n_option = 0;
+bool F_option = 0;
 
 void printStat(char* pathname, char* file, struct stat* st) {
-    if (option[0]) {                                            // s옵션이 있으면
+    if (s_option) {                                             // s옵션이 있으면
         printf("%ld ", st->st_blocks / 2);                      // 파일의 byte수를 출력
     }                                                           //
                                                                 //
-    if (option[1]) {                                            // n옵션이 있으면
+    if (n_option) {                                             // n옵션이 있으면
         struct tm* time;                                        // time 구조체 선언
         time = localtime(&(st->st_ctime));                      // 초를 localtime으로 변환
         printf("%c%s ", type(st->st_mode), perm(st->st_mode));  // 파일의 타입과 권한을 출력
-        printf("%ld ", st->st_nlink);                           // 파일의 링크 수를 출력
-        printf("%d %d ", st->st_uid, st->st_gid);               // 파일의 소유자와 그룹 ID를 출력
-        printf("%ld ", st->st_size);                            // 파일의 크기를 출력
-        printf("%d월 %d일 ", time->tm_mon, time->tm_mday);      // 파일의 마지막 수정 날짜를 출력
-        printf("%d:%d", time->tm_hour, time->tm_min);           // 파일의 마지막 수정 시간을 출력
+        printf("%2ld ", st->st_nlink);                          // 파일의 링크 수를 출력
+        printf("%5d %5d ", st->st_uid, st->st_gid);             // 파일의 소유자와 그룹 ID를 출력
+        printf("%6ld ", st->st_size);                           // 파일의 크기를 출력
+        printf("%2d월 %2d일 ", time->tm_mon, time->tm_mday);    // 파일의 마지막 수정 날짜를 출력
+        printf("%2d:%2d ", time->tm_hour, time->tm_min);        // 파일의 마지막 수정 시간을 출력
     }                                                           //
                                                                 //
-    printf("%s", file);                                         // 파일의 이름을 출력
+    printf("%20s", file);                                       // 파일의 이름을 출력
                                                                 //
-    if (option[2]) {                                            // -F 옵션이 있으면
+    if (F_option) {                                             // -F 옵션이 있으면
         printf("%c", typeF(st->st_mode));                       // 파일 형식을 알리는 문자 추가
     }
 

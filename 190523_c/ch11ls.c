@@ -21,7 +21,7 @@
 
 #include "ch11ls.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *const argv[]) {
     DIR *dp;
     char *dir = 0;
     struct stat st;
@@ -29,27 +29,25 @@ int main(int argc, char *argv[]) {
     char path[BUFSIZ + 1];
 
     int i;
+    int opt;
 
-    if (argc != 1) {
-        // 입력한 옵션을 확인하는 부분
-        for (i = 1; i < argc; i++) {
-            if (argv[i][0] == '-') {
-                if (strcmp(argv[i], "-s")) {
-                    option[0] = 1;
-                } else if (strcmp(argv[i], "-n")) {
-                    option[1] = 1;
-                } else if (strcmp(argv[i], "-F")) {
-                    option[2] = 1;
-                } else {
-                    fprintf(stderr, "잘못된 입력\n");
-                }
-            } else {
-                dir = argv[i];
-            }
+    // getopt(): main 함수 파라미터를 파싱하는 함수.
+    //           기본 라이브러리에 포함되어 있다.
+    while ((opt = getopt(argc, argv, "snF")) != -1) {
+        switch (opt) {
+            case 's':
+                s_option = 1;
+                break;
+            case 'n':
+                n_option = 1;
+                break;
+            case 'F':
+                F_option = 1;
+                break;
         }
-    } else if (argc == 1 && argv[i][0] != '-') {
-        dir = ".";
     }
+
+    dir = ".";
 
     if ((dp = opendir(dir)) == NULL) {
         perror(dir);
