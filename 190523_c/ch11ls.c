@@ -17,5 +17,51 @@
     실행파일 “*”, 디렉터리 “/”, 심볼릭링크 “@”, FIFO “|”, 소켓 ”=“
 
     -n 이름의 나열에서 UID, GID 번호를 사용한다. 
-
 */
+
+#include "ch11ls.h"
+
+int main(int argc, char *argv[]) {
+    DIR *dp;
+    char *dir = 0;
+    struct stat st;
+    struct dirent *d;
+    char path[BUFSIZ + 1];
+
+    int i;
+
+    if (argc != 1) {
+        // 입력한 옵션을 확인하는 부분
+        for (i = 1; i < argc; i++) {
+            if (argv[i][0] == '-') {
+                if (strcmp(argv[i], "-s")) {
+                    option[0] = 1;
+                } else if (strcmp(argv[i], "-n")) {
+                    option[1] = 1;
+                } else if (strcmp(argv[i], "-F")) {
+                    option[2] = 1;
+                } else {
+                    fprintf(stderr, "잘못된 입력\n");
+                }
+            } else {
+                dir = argv[i];
+            }
+        }
+    } else if (argc == 1 && argv[i][0] != '-') {
+        dir = ".";
+    }
+
+    if ((dp = opendir(dir)) == NULL) {
+        perror(dir);
+    }
+
+    while ((d = readdir(dp)) != NULL) {
+        sprintf(path, "%s/%s", dir, d->d_name);
+        if (lstat(path, &st) < 0) {
+            perror(path);
+        }
+        printStat(path, d->d_name, &st);
+    }
+
+    return 0;
+}
