@@ -1,17 +1,19 @@
-// myprog2.c
+// myprog1.c
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char* argv[]) {
-    int i, p, l;
+    int i, s, l;
 
     if (argc < 2) {
         printf("Usage: %s number\n", argv[0]);
-        exit(-1);
+        return -1;
     }
     l = strtol(argv[1], 0, 0);
 
-    for (p = i = 1; i <= l; i++) {
-        p *= i;
+    for (s = 0, i = 1; i <= l; i++) {
+        s += 1;
     }
-    printf("p = %d\n", p);
+
+    printf("s = %d\n", s);
 }
