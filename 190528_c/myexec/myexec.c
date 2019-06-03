@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 
     if (*argv[1] == 'a') {
         if (!fork()) {
-            execl("./myprog1", "myprog1", "14", NULL);
+            execl("/home/lgm/문서/System-Programming/190528_c/myexec/bin/myprog1", "myprog1", "14", NULL);
             exit(0);
         }
     } else if (*argv[1] == 'b') {
