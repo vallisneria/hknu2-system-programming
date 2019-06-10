@@ -9,3 +9,24 @@
     - ch12sleep()은 현재 프로세스를 second 초 동안 중지시킨다.
     - alarm()과 pause() 시스템 호출을 이용한다.
 */
+
+#include <signal.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <wait.h>
+
+// 정지한 시간을 return 한다.
+unsigned int ch12sleep(unsigned int second) {
+    if (fork() == 0) {
+        // 자식 프로세스가 진행할 내용
+        alarm(second);
+        pause();
+
+    } else {
+        // 부모 프로세스가 진행할 내용
+        wait((int*)NULL);
+
+        // 자식 프로세스가 알람을 울리면 함수를 종료한다.
+        return second;
+    }
+}

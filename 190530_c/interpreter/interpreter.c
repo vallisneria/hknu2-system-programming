@@ -27,6 +27,7 @@ int main(int argc, char* argv[]) {
         } else if (!fork()) {
             execlp(command, command, NULL);
             fprintf(stderr, "그런 명령어는 존재하지 않습니다\n");
+            return 0;
         }
         wait((int*)NULL);
 
