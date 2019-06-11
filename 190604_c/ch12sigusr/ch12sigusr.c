@@ -20,9 +20,10 @@ void SIGUSR1_todo() {
     fprintf(stderr, "Oops! SIGUSR1!\n");
 }
 
+// SIGUSR2 시그널을 받으면 할 일
 void SIGUSR2_todo() {
     fprintf(stderr, "Oooooops! SIGUSR2\n");
-    exit(-1);
+    exit(SIGUSR2);
 }
 
 int main(int argc, char* argv[]) {
