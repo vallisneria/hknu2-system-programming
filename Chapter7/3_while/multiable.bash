@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# 7장 54페이지
+# while 문제
+#
+# 중첩 while문을 활용하여 구구단 3단부터 8단까지 출력하는
+# multiable.bash를 작성하라.
+
 i=3
 
 while (( i<=8 ))
