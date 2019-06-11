@@ -19,48 +19,55 @@ void sigusr1() {
 // 답변을 받아서 question으로 보냄
 int main(int argc, char* argv[]) {
     // 초기 설정
-    int Q_fd_r, A_fd_w, Question_pid;
+    int Q_fd_r, A_fd_w, Question_pid, mypid = getpid();
     char question[BUFSIZ], response[BUFSIZ];
     signal(SIGUSR1, sigusr1);
 
     // Named Pipe 설정
-    unlink("Question");
-    unlink("Answer");
+    printf("Named Pipe 설정\n");
 
-    mkfifo("Question", 0660);
-    mkfifo("Answer", 0660);
+    mkfifo("QuestionPipe", 0660);
+    mkfifo("AnswerPipe", 0660);
 
-    Q_fd_r = open("Question", O_WRONLY);
-    A_fd_w = open("Question", O_RDONLY);
+    Q_fd_r = open("QuestionPipe", O_RDONLY);
+    A_fd_w = open("AnswerPipe", O_WRONLY);
 
     // 상대 프로세스에게 시그널을 보내기 위한 PID 교환 작업 (생략가능)
-    write(A_fd_w, getpid(), sizeof(int));
+    printf("PID 교환\n");
+
+    write(A_fd_w, &mypid, sizeof(int));
     read(Q_fd_r, &Question_pid, sizeof(Question_pid));
 
     // 파이프가 제대로 연결되었는지 확인하는 과정 (생략가능)
-    // 서로 "연결 성공"이 출력되지 않으면 파이프가 제대로 연결되지 않은 것이다.
+    // "연결 성공"이 출력되지 않으면 파이프가 제대로 연결되지 않은 것이다.
+    printf("시그널 전송\n");
+
     kill(Question_pid, SIGUSR1);
 
     do {
         // 질문을 받음
         read(Q_fd_r, question, BUFSIZ);
+        if (!strcmp(question, "0")) {
+            break;
+        }
 
         // 미리 입력해둔 질문들에서 적절한 답변을 찾음
-        if (question == "Hello") {
+        if (!strcmp(question, "Hello")) {
             strcpy(response, "World!");
-        } else if (question == "Your name") {
-            strcpy(response, *argv[0]);
-        } else if (question == "the answer to life the universe and everything") {
+        } else if (!strcmp(question, "Your_name")) {
+            strcpy(response, argv[0]);
+        } else if (!strcmp(question, "the_answer_to_life_the_universe_and_everything")) {
             strcpy(response, "42");
-        } else if (question == "0") {
+        } else if (!strcmp(question, "0")) {
             //종료
         } else {
             strcpy(response, "what?");
         }
 
         // 답변을 보냄
+        sprintf(response, "%s\n\n", response);
         write(A_fd_w, response, strlen(response) + 1);
-    } while (question != 0);
+    } while (strcmp(question, "0"));
 
     close(Q_fd_r);
     close(A_fd_w);
