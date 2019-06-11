@@ -6,8 +6,8 @@
     시그널 SIGUSR1(10)과 SIGUSR2(12)를 받아 처리하는 프로그램 ch12sigusr.c를 작성한다.
 
     - 프로그램은 기본적으로 무한 루프를 수행하면서 시그널을 기다린다.
-    - SIGUSR1을 받으면 "Oops! SIGUSR1!"을 출력하되 죽지는 않는다.
-    - SIGUSR2를 받으면 "Oooooops! SIGUSR2!"를 출력하고 죽는다.
+    - SIGUSR1을 받으면 "Oops! SIGUSR1!"을 출력
+    - SIGUSR2를 받으면 "Oooooops! SIGUSR2!"를 출력
 */
 
 #include <signal.h>
@@ -39,6 +39,6 @@ int main(int argc, char* argv[]) {
     } else {
         // 부모 프로세스가 실행할 내용
         sleep(2);
-        kill(pid, SIGUSR1);
+        kill(pid, SIGALRM);
     }
 }
