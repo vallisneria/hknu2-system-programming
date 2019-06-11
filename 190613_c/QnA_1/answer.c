@@ -7,17 +7,21 @@
 int main() {
     int fp_r, fp_w, i;
 
-    if (unlink("myPipeAsk") == -1)
+    if (unlink("myPipeAsk") == -1) {
         perror("Failed to remove fifo");
+    }
 
-    if (unlink("myPipeRpl") == -1)
+    if (unlink("myPipeRpl") == -1) {
         perror("Failed to remove fifo");
+    }
 
-    if (mkfifo("myPipeAsk", 0660) == -1)
+    if (mkfifo("myPipeAsk", 0660) == -1) {
         perror("mkfifo error");
+    }
 
-    if (mkfifo("myPipeRpl", 0660) == -1)
+    if (mkfifo("myPipeRpl", 0660) == -1) {
         perror("mkfifo error");
+    }
 
     if ((fp_r = open("myPipeAsk", O_RDONLY)) == -1)
         perror("open error");
