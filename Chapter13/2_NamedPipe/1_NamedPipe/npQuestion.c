@@ -1,3 +1,7 @@
+/*
+    npQuestioner에서 npAnswerer로 숫자를 보내면 3을 더해서 돌려준다. 
+*/
+
 #include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
