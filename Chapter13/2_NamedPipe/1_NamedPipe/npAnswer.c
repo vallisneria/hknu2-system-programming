@@ -41,12 +41,14 @@ int main(int argc, char* argv[]) {
     do {
         // 질문을 받음
         read(Q_fd_r, &question, BUFSIZ);
+        printf("질문을 받음: %d\n", question);
 
         // 계산함
         response = question + 3;
 
         // 답변을 보냄
         write(A_fd_w, &response, sizeof(int));
+        printf("답변을 보냄: %d\n", response);
     } while (question != 0);
 
     close(Q_fd_r);

@@ -30,8 +30,6 @@ int main(int argc, char* argv[]) {
     signal(SIGUSR1, sigusr1);
 
     // Named Pipe 설정
-    printf("Named Pipe 설정\n");
-
     mkfifo("QuestionPipe", 0660);
     mkfifo("AnswerPipe", 0660);
 
@@ -39,13 +37,11 @@ int main(int argc, char* argv[]) {
     A_fd_r = open("AnswerPipe", O_RDONLY);
 
     // 상대 프로세스에게 시그널을 보내기 위한 PID 교환 (생략가능)
-    printf("PID 교환\n");
     write(Q_fd_w, &mypid, sizeof(int));
     read(A_fd_r, &teacher_pid, sizeof(teacher_pid));
 
     // 파이프가 제대로 연결되었는지 확인하는 과정 (생략가능)
     // 서로 "연결 성공"이 출력되지 않으면 파이프가 제대로 연결되지 않은 것이다.
-    printf("시그널 전송\n");
     kill(teacher_pid, SIGUSR1);
 
     printf("파이프를 통한 질문-답변 프로그램.\n");
